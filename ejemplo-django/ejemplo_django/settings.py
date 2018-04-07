@@ -25,7 +25,7 @@ SECRET_KEY = 'tlf-c=vm$y(em)#i0(7=z_#$r(7w&28qsm_v79!-6!gdy00364'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition

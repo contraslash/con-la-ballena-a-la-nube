@@ -131,6 +131,65 @@ docker login
 docker build -t contraslash/ejemplo-django .
 docker push contraslash/ejemplo-django
 ```
+
+[https://hub.docker.com/r/contraslash/ejemplo-django/](https://hub.docker.com/r/contraslash/ejemplo-django/)
+
+```bash
+docker tag contraslash/ejemplo-django:latest contraslash/ejemplo-django:v1
+docker push contraslash/ejemplo-django:v1
+```
+
+
+
+.footnote[
+En caso que necesiten borrar imágenes no usadas
+`docker rmi $(docker images | grep "<none>" | awk '{print $3}')`
+]
+---
+class: center
+# Ahora si Despliegue
+![https://media.giphy.com/media/l0MYzftstL1XRE8ec/giphy.gif](https://media.giphy.com/media/l0MYzftstL1XRE8ec/giphy.gif)
+---
+class: center
+# Docker machine
+[Docker Machine](https://docs.docker.com/machine/overview/)
+
+[Github Releases](https://github.com/docker/machine/releases)
+![https://media.giphy.com/media/XTj21Z5kVBcli/giphy.gif](https://media.giphy.com/media/XTj21Z5kVBcli/giphy.gif)
+---
+# Creando máquinas
+
+## En AWS
+
+```bash
+docker-machine create --driver amazonec2 --amazonec2-open-port 8000 --amazonec2-region us-west-1  --amazonec2-access-key $AWS_ACCESS_KEY_ID --amazonec2-secret-key $AWS_SECRET_ACCESS_KEY ejemplo-django
+```
+
+Una implementación un poco mas personalizada tomada de [aqui](https://github.com/contraslash/aws-docker-swarm/blob/master/create.sh)
+```bash
+docker-machine create -d amazonec2 --amazonec2-vpc-id $VPC --amazonec2-region $REGION --amazonec2-zone $ZONE --amazonec2-instance-type t2.small --amazonec2-subnet-id $SUBNET --amazonec2-security-group $SECURITY_GROUP --amazonec2-access-key $AWS_ACCESS_KEY_ID --amazonec2-secret-key $AWS_SECRET_ACCESS_KEY $MANAGER_NAME
+```
+
+## En Digital Ocean
+
+```bash
+docker-machine create --driver digitalocean --digitalocean-access-token $DIGITALOCEAN_ACCESS_TOKEN --digitalocean-image $DIGITALOCEAN_IMAGE --digitalocean-private-networking=true --digitalocean-region $DIGITALOCEAN_REGION --digitalocean-size $DIGITALOCEAN_MANAGER_SIZE  $MANAGER_NAME
+```
+
+
+---
+# Desplegando nuestros contenedores
+
+```
+eval $(docker-machine env ejemplo-django)
+docker run -p 8000:8000 -d contraslash/ejemplo-django:v2
+```
+
+## Luego podemos matar la máquina
+
+```bash
+docker-machine rm ejemplo-django
+```
 ---
 Dar las gracias y huir
 ![https://media.giphy.com/media/3o7ZetIsjtbkgNE1I4/giphy.gif](https://media.giphy.com/media/3o7ZetIsjtbkgNE1I4/giphy.gif)
