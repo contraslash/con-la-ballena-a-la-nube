@@ -180,7 +180,7 @@ docker-machine create --driver digitalocean --digitalocean-access-token $DIGITAL
 ---
 # Desplegando nuestros contenedores
 
-```
+```bash
 eval $(docker-machine env ejemplo-django)
 docker run -p 8000:8000 -d contraslash/ejemplo-django:v2
 ```
