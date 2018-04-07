@@ -30,9 +30,107 @@ class: center, middle, light
 .footnote[]
 ---
 class: center
-[https://github.com/contraslash/chatbots-intro](https://github.com/contraslash/chatbots-intro)
+[https://github.com/contraslash/con-la-ballena-a-la-nube](https://github.com/contraslash/con-la-ballena-a-la-nube)
 ![Qr code](img/qr.png)
 ---
+class: center
+# ¿Qué es un contenedor?
+![](https://cdn.pixabay.com/photo/2017/12/15/22/25/hamburg-3021820_960_720.jpg)
+---
+# ¿Qué es un contenedor?
+
+> Is a lightweight, stand-alone, executable package of a piece of software that includes everything needed to run it: code, runtime, system tools, system libraries, settings
+
+https://www.docker.com/what-container
+---
+class: center
+# ¿Y las máquinas virtuales ya no solucionaban eso?
+
+![https://techglimpse.com/docker-installation-tutorial-centos/](https://techglimpse.com/wp-content/uploads/2016/03/Container-vs-VMs.jpg)
+
+---
+class: center
+
+![docker.com](https://ugc.kn3.net/i/origin/https://www.exa.unicen.edu.ar/sites/default/files/docker-logo.png)
+
+[Why docker is so popular](http://www.channelfutures.com/open-source/why-docker-so-popular-explaining-rise-containers-and-docker)
+---
+# Alternativas a Docker
+
+- [rkt](https://coreos.com/rkt/)
+- [runC](https://github.com/opencontainers/runc)
+- [lxC](https://linuxcontainers.org/)
+- [Singularity](https://singularity.lbl.gov/)
+
+[Más opciones](https://coreos.com/rkt/docs/latest/rkt-vs-other-projects.html)
+---
+class: center
+# Esquema de capas
+
+![https://medium.com/@jessgreb01/digging-into-docker-layers-c22f948ed612](https://cdn-images-1.medium.com/max/800/1*st_fZmKOMykQGF8kZKglvA.png)
+---
+# Jupyter
+[Full Documentation here](https://hub.docker.com/r/jupyter/datascience-notebook/)
+```shell
+docker run -it --rm -p 8888:8888 jupyter/datascience-notebook
+```
+
+```python
+%matplotlib inline
+
+import matplotlib
+import numpy as np
+import matplotlib.pyplot as plt
+
+x = np.linspace(0, 3*np.pi, 500)
+plt.plot(x, np.sin(x**2))
+plt.title('A simple chirp')
+plt.show()
+```
+
+---
+class: center
+[Docker Hub](https://hub.docker.com)
+
+
+![https://hub.docker.com](https://i.ytimg.com/vi/ASNL27a7sE4/maxresdefault.jpg)
+---
+class: center
+# Instalación
+[Install Docker](https://docs.docker.com/install/)
+![I need Help](https://media.giphy.com/media/oGzFZek2lszlK/giphy.gif)
+---
+# [Dockerfile](https://docs.docker.com/engine/reference/builder/#usage)
+
+```Dockerfile
+FROM python:3.6-alpine
+
+ENV LIBRARY_PATH=/lib:/usr/lib
+ENV PYTHONUNBUFFERED 1
+
+RUN mkdir /code
+WORKDIR /code
+ADD requirements.txt /code/
+RUN pip install -r requirements.txt
+
+ADD . /code/
+EXPOSE 8000
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+```
+
+```bash
+docker build -t contraslash/ejemplo-django .
+docker run -p 8000:8000 contraslash/ejemplo-django
+```
+
+---
+# Build and Upload
+
+```bash
+docker login
+docker build -t contraslash/ejemplo-django .
+docker push contraslash/ejemplo-django
+```
 ---
 Dar las gracias y huir
 ![https://media.giphy.com/media/3o7ZetIsjtbkgNE1I4/giphy.gif](https://media.giphy.com/media/3o7ZetIsjtbkgNE1I4/giphy.gif)
